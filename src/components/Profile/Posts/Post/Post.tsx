@@ -1,5 +1,5 @@
+import { PostType } from "../../../../redux/profile-reducer";
 import c from "./Post.module.css";
-import {PostType} from "../../../../redux/state";
 
 export type PostPropsType = PostType
 

@@ -1,23 +1,54 @@
-import { AllActionType, DialogsPageType } from "./state";
-
 export const UPDATE_NEW_MESSAGE_BODY = 'UPDATE-NEW-MESSAGE-BODY';
 export const SEND_MESSAGE = 'SEND-MESSAGE';
 
-export const dialogsReducer = (state: DialogsPageType, action: any): DialogsPageType => {
+export type DialogsPageType = {
+    dialogs: Array<DialogItemType>
+    messages: Array<MessageType>
+    newMessageBody: string
+}
+export type DialogItemType = {
+    id: number
+    name: string
+}
+export type MessageType = {
+    id: number
+    message: string
+}
+
+let initialState: DialogsPageType = {
+    dialogs: [
+        {id: 1, name: 'Vova'},
+        {id: 2, name: 'Sasha'},
+        {id: 3, name: 'Dima'},
+        {id: 4, name: 'Vlad'},
+    ],
+    messages: [
+        {id: 1, message: 'Hi'},
+        {id: 2, message: 'How are you?'},
+        {id: 3, message: 'Yo'},
+    ],
+    newMessageBody: '',
+}
+
+export const dialogsReducer = (state = initialState, action: DialogsAT): DialogsPageType => {
     switch (action.type) {
         case UPDATE_NEW_MESSAGE_BODY:
-            state.newMessageBody = action.newMessage;
-            return state;
+            return {...state, newMessageBody: action.newMessage}
         case SEND_MESSAGE:
-            let message = {id: 4, message: state.newMessageBody};
-            state.newMessageBody = '';
-            state.messages.push(message);
-            return state;
+            return {...state, messages: [...state.messages, {id: 4, message: state.newMessageBody}], newMessageBody: ''}
         default: return state;
     }
 }
 
-export const updateNewMessageBodyAC = (text: string) => ({type: UPDATE_NEW_MESSAGE_BODY, newMessage: text})
+type UpdateNewMessageBodyType = {
+    type: 'UPDATE-NEW-MESSAGE-BODY'
+    newMessage: string
+}
+type SendMessageType = {
+    type: 'SEND-MESSAGE'
+}
+
+export const updateNewMessageBodyAC = (newMessage: string) => ({type: UPDATE_NEW_MESSAGE_BODY, newMessage})
 export const sendMessageAC = () => ({type: SEND_MESSAGE});
 
-export type DialogsAT = ReturnType<typeof updateNewMessageBodyAC> | ReturnType<typeof sendMessageAC>
+export type DialogsAT = UpdateNewMessageBodyType | SendMessageType

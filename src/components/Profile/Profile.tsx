@@ -1,17 +1,12 @@
-import c from './Profile.module.css'
+import c from './Profile.module.css';
 import {MyPosts} from "./Posts/MyPosts";
-import {AllActionType, ProfilePageType} from "../../redux/state";
+import {PostsContainer} from './Posts/PostsContainer';
 
-type ProfilePropsType = {
-    profilePage: ProfilePageType
-    dispatch: (action: AllActionType) => void
-}
-
-export function Profile(props: ProfilePropsType) {
+export function Profile() {
     return (
         <div className={c.content}>
             <ProfileInfo/>
-            <MyPosts posts={props.profilePage.posts} dispatch={props.dispatch}/>
+            <PostsContainer/>
         </div>
     )
 }
